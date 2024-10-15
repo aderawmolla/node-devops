@@ -1,0 +1,12 @@
+docker stack deploy -c docker-compose.yml myapp
+Since --detach=false was not specified, tasks will be created in the background.
+In a future release, --detach=false will become the default.
+network "my_overlay_network" is declared as external, but could not be found. You need to create a swarm-scoped network before the stack is deployed
+---
+docker network create --driver overlay my_overlay_network
+
+
+access denied error in pushing docker hub
+---
+use sudo previledge
+
