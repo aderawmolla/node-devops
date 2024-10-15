@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 2000;
-
+app.use(cors())
 
 
 app.get('/', (req, res) => {
@@ -13,6 +13,6 @@ app.get('/test', (req, res) => {
 });
 
 
-app.listen(port, () => {
+app.listen(port,'0.0.0.0', () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
