@@ -2,24 +2,20 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    image: ad1740/node:latest
     ports:
-      - "3000:3000"  # Map host port 3000 to container port 3000
+      - "3000:3000"
     environment:
-      - NODE_ENV=development  # Set the environment to development
+      - NODE_ENV=development
     volumes:
-      - .:/usr/src/app  # Mount the current directory into the container
-      - /usr/src/app/node_modules  # Prevent overwriting the node_modules directory
-    restart: always  # Restart the container automatically if it stops
+      - /usr/src/app/node_modules
     deploy:
-      replicas: 2  # Deploy 2 replicas of the app service
+      replicas: 2
       update_config:
         parallelism: 1
-        delay: 10s  # Delay between updates to each replica
+        delay: 10s
       restart_policy:
         condition: on-failure
-    networks:
-      - my_overlay_network
 
   fluentd:
     image: fluent/fluentd:v1.14-debian-1.0
