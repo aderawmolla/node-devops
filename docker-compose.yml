@@ -4,7 +4,7 @@ services:
   app:
     build: .
     ports:
-      - "3000:2000"  # Map host port 3000 to container port 3000
+      - "3000:3000"  # Map host port 3000 to container port 3000
     environment:
       - NODE_ENV=development  # Set the environment to development
     volumes:
