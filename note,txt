@@ -1,0 +1,4 @@
+Optimization:
+
+Using node:18-alpine reduces the image size because it's a lightweight base image.
+The npm install --production ensures only production dependencies are installed, reducing size and unnecessary dev packages.

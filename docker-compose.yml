@@ -11,3 +11,58 @@ services:
       - .:/usr/src/app  # Mount the current directory into the container
       - /usr/src/app/node_modules  # Prevent overwriting the node_modules directory
     restart: always  # Restart the container automatically if it stops
+    deploy:
+      replicas: 2  # Deploy 2 replicas of the app service
+      update_config:
+        parallelism: 1
+        delay: 10s  # Delay between updates to each replica
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my_overlay_network
+
+  fluentd:
+    image: fluent/fluentd:v1.14-debian-1.0
+    volumes:
+      - ./fluentd/conf:/fluentd/etc  # Fluentd configuration directory
+    ports:
+      - "24224:24224"  # Fluentd input port
+      - "5140:5140"    # Fluentd syslog port
+    deploy:
+      replicas: 2  # Deploy 2 replicas of Fluentd
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my_overlay_network
+
+  opensearch:
+    image: opensearchproject/opensearch:latest
+    environment:
+      - cluster.name=opensearch-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g
+    ports:
+      - "9200:9200"  # OpenSearch HTTP port
+      - "9600:9600"  # OpenSearch performance analyzer port
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    deploy:
+      replicas: 2  # Deploy 2 replicas of OpenSearch
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my_overlay_network
+
+volumes:
+  opensearch_data:  # Named volume for OpenSearch data
+
+networks:
+  my_overlay_network:
+    external: true  # Use the existing overlay network

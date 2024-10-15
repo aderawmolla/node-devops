@@ -18,3 +18,7 @@ EXPOSE 3000
 
 # Command to run the application using npx to ensure local packages are used.
 CMD ["node", "index.js"]
+
+
+# optimize dicker images
+#
