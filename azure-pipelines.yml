@@ -7,8 +7,6 @@ trigger:
 # Use the specified agent pool
 pool:
   name: 'devops'  # Change this to your agent pool name
-  demands: 
-    - node  # Optional: Specify node if your agent has Node.js
 
 variables:
   dockerHubConnection: 'DockerHubServiceConnection'  # Docker Hub service connection name
