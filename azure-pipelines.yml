@@ -4,8 +4,11 @@ trigger:
     include:
       - master  # Trigger on changes to the main branch
 
+# Use the specified agent pool
 pool:
-  vmImage: 'ubuntu-latest'
+  name: 'devops'  # Change this to your agent pool name
+  demands: 
+    - node  # Optional: Specify node if your agent has Node.js
 
 variables:
   dockerHubConnection: 'DockerHubServiceConnection'  # Docker Hub service connection name
