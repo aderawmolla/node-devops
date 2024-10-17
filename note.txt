@@ -1,0 +1,34 @@
+Optimization:
+
+Using node:18-alpine reduces the image size because it's a lightweight base image.
+The npm install --production ensures only production dependencies are installed, reducing size and unnecessary dev packages.
+
+
+# Step 1: Build the Docker image
+docker build -t ad1740/node:latest .
+
+# Step 2: Login to Docker Hub
+sudo docker login  # (Enter username and password when prompted)
+
+# Step 3: Push the image to Docker Hub
+docker push ad1740/node:latest
+
+sudo docker image ls
+sudo docker ps
+sudo docker build -t ad1740/node:latest .
+sudo docker push ad1740/node:latest
+sudo docker run -p 3000:3000 ad1740/node:latest
+
+docker stack rm myapp
+docker stack deploy -c docker-compose.yml myapp
+docker stack ps myapp
+docker service logs myapp_fluentd
+docker network ls
+docker swarm init --advertise-addr 10.10.0.5
+
+docker network rm my_verlay_network
+<pre>docker swarm join --token SWMTKN-1-4p1oaaofrs44cm6n5vpjigdzueugkjyoo8i8p28yj4usdikjzu-atof406izja5ibkt5nu0vbe51 157.230.8.219:2377
+
+To add a manager to this swarm, run &apos;docker swarm join-token manager&apos; and follow the instructions.
+</pre>
+ docker system prune -a --volumes
