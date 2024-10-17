@@ -48,7 +48,8 @@ services:
     environment:
       - NODE_ENV=development
     volumes:
-      - /usr/src/app/node_modules
+       - .:/usr/src/app  # Mount the current directory into the container
+       - /usr/src/app/node_modules  # Prevent overwriting the node_modules directory
     deploy:
       replicas: 1
       update_config:
