@@ -6,11 +6,11 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 
 app.get('/', (req, res) => {
-    res.send('Hello, World! This is my Node.js app running in a Docker container after opensearch3.');
+    res.send('Hello, World! This is my Node.js app running in a Docker container after opensearch4.');
 });
 
 app.get('/test', (req, res) => {
-    res.send('Hello, World! This is the test project after open search3.');
+    res.send('Hello, World! This is the test project after open search4.');
 });
 
 // Update the log statement to reflect the correct URL

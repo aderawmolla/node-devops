@@ -1,0 +1,48 @@
+# azure-pipelines.yml
+trigger:
+  branches:
+    include:
+      - master  # Trigger on changes to the main branch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  dockerHubConnection: 'DockerHubServiceConnection'  # Docker Hub service connection name
+  sshConnection: 'SSHServiceConnection'  # SSH service connection name
+  dockerImageName: 'ad1740/node'  # Docker image name
+  dockerTag: 'latest'  # Tag for the Docker image
+  serverIP: '159.223.143.151'  # Your server IP
+  remotePath: 'nodeDevops'  # Path to the Git repo on the server
+
+steps:
+# Step 1: Checkout the latest code from GitHub
+- checkout: self
+
+# Step 2: Build the Docker image
+- task: Docker@2
+  inputs:
+    containerRegistry: $(dockerHubConnection)
+    repository: $(dockerImageName)
+    command: buildAndPush
+    Dockerfile: 'Dockerfile'
+    tags: |
+      $(dockerTag)
+
+# Step 3: SSH to the server and pull the latest changes
+- task: SSH@0
+  inputs:
+    sshEndpoint: $(sshConnection)
+    runOptions: inline
+    script: |
+      cd $(remotePath)
+      git pull
+
+# Step 4: Deploy the app using Docker stack deploy
+- task: SSH@0
+  inputs:
+    sshEndpoint: $(sshConnection)
+    runOptions: inline
+    script: |
+      cd $(remotePath)
+      docker stack deploy -c docker-compose.yml myapp

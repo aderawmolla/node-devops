@@ -25,6 +25,7 @@ docker stack ps myapp
 docker service logs myapp_fluentd
 docker network ls
 docker swarm init --advertise-addr 10.10.0.5
+docker network create -d overlay my_overlay_network
 
 docker network rm my_verlay_network
 <pre>docker swarm join --token SWMTKN-1-4p1oaaofrs44cm6n5vpjigdzueugkjyoo8i8p28yj4usdikjzu-atof406izja5ibkt5nu0vbe51 157.230.8.219:2377
