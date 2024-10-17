@@ -1,25 +1,29 @@
 version: '3.8'
 
 services:
- app:
-    image: ad1740/node:latest
+  app:
+    image: ad1740/node:latest  # Use the specified image for the application
     ports:
-      - "3000:3000"
+      - "3000:3000"  # Map host port 3000 to container port 3000
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=development  # Set environment variable for development mode
     volumes:
-       - .:/usr/src/app  # Mount the current directory into the container
-       - /usr/src/app/node_modules  # Prevent overwriting the node_modules directory
+      - .:/usr/src/app  # Mount the current directory to /usr/src/app in the container
+      - node_modules:/usr/src/app/node_modules  # Use a named volume for node_modules to avoid conflicts
     deploy:
-      replicas: 1
+      replicas: 1  # Define the number of replicas for the service
       update_config:
-        parallelism: 1
-        delay: 10s
+        parallelism: 1  # Allow one task to update at a time
+        delay: 10s  # Delay between updates
       restart_policy:
-        condition: on-failure
+        condition: on-failure  # Restart the service on failure
     networks:
-      - my_overlay_network
+      - my_overlay_network  # Use the specified external overlay network
+
+# Define named volumes for persistent data
+volumes:
+  node_modules: {}  # Named volume for node_modules to avoid overwriting issues
 
 networks:
   my_overlay_network:
-    external: true  # Assuming you're using an external overlay network
+    external: true  # Ensure this is an external overlay network
